@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Struk Pembayaran Listrik</title>
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat font Inter dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Memuat library html2canvas untuk menyimpan sebagai gambar -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* Menggunakan font Inter sebagai font utama */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Mengubah font struk menjadi Arial Bold */
+        #struk-wrapper main {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        /* Sembunyikan elemen yang tidak perlu saat mencetak */
+        @media print {
+            body {
+                background-color: white;
+            }
+            #form-container, #action-buttons {
+                display: none;
+            }
+            #struk-wrapper {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Kontainer Form Input -->
+    <div id="form-container" class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
+        <div class="flex justify-center items-center mb-6">
+             <img src="HEADER.jpg" alt="Logo Perusahaan" class="w-[450px]">
+        </div>
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-8">Generator Struk Listrik</h1>
+        <form id="struk-form" class="space-y-4">
+            <div>
+                <label for="nama" class="text-sm font-medium text-gray-700">Nama Pelanggan</label>
+                <input type="text" id="nama" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="no-pelanggan" class="text-sm font-medium text-gray-700">No. Pelanggan</label>
+                <input type="text" id="no-pelanggan" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="no-meter" class="text-sm font-medium text-gray-700">No. Meter</label>
+                <input type="text" id="no-meter" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="tarif-daya" class="text-sm font-medium text-gray-700">Tarif/Daya</label>
+                <select id="tarif-daya" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                    <option value="900">Daya 900 VA</option>
+                    <option value="1300">Daya 1300 VA</option>
+                </select>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="tanggal-input" class="text-sm font-medium text-gray-700">Tanggal</label>
+                    <input type="date" id="tanggal-input" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="jam-input" class="text-sm font-medium text-gray-700">Jam</label>
+                    <input type="time" id="jam-input" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+            </div>
+            <div>
+                <label for="nominal-pilihan" class="text-sm font-medium text-gray-700">Pilihan Nominal (Rp)</label>
+                <select id="nominal-pilihan" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <option value="50000">50,000</option>
+                    <option value="100000">100,000</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+            <div id="nominal-custom-container" class="hidden">
+                <label for="nominal-custom" class="text-sm font-medium text-gray-700">Nominal Custom (Rp)</label>
+                <input type="number" id="nominal-custom" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+             <div>
+                <label for="admin" class="text-sm font-medium text-gray-700">Biaya Admin (Rp)</label>
+                <input type="number" id="admin" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+             <div>
+                <label for="token-custom" class="text-sm font-medium text-gray-700">Stroom/Token</label>
+                <input type="text" id="token-custom" placeholder="Contoh: 1234-5678-..." class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                <div class="mt-2 flex items-center">
+                    <input type="checkbox" id="token-otomatis" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" checked>
+                    <label for="token-otomatis" class="ml-2 block text-sm text-gray-900">Generate Otomatis</label>
+                </div>
+            </div>
+            <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Buat Struk
+            </button>
+        </form>
+    </div>
+
+    <!-- Kontainer Struk (awalnya tersembunyi) -->
+    <div id="struk-container" class="hidden w-full max-w-lg">
+        <div id="struk-wrapper" class="bg-white">
+             <!-- Kontainer utama untuk struk, dibuat semirip mungkin dengan gambar -->
+            <div class="w-full max-w-md mx-auto p-6 pt-12">
+                <!-- Bagian Header dengan Logo -->
+                <header class="flex justify-center items-center mb-8">
+                    <div class="flex items-center">
+                        <!-- Menggunakan gambar logo yang sama -->
+                        <img src="HEADER.jpg" alt="Logo Perusahaan" class="w-[480px]">
+                    </div>
+                </header>
+
+                <!-- Bagian Isi Struk, menggunakan <p> untuk setiap baris -->
+                <main class="text-black text-left text-lg leading-relaxed">
+                    <p id="struk-tanggal" class="mb-4"></p>
+                    <p id="struk-ref" class="mb-4 break-all"></p>
+                    <p id="struk-nama" class="mb-4"></p>
+                    <p id="struk-no-pelanggan" class="mb-4"></p>
+                    <p id="struk-no-meter" class="mb-4"></p>
+                    <p id="struk-tarif-daya" class="mb-4"></p>
+                    <p id="struk-nominal" class="mb-4"></p>
+                    <p id="struk-kwh" class="mb-4"></p>
+                    <p id="struk-token" class="mb-4"></p>
+                    <p id="struk-admin" class="mb-4"></p>
+                    <p class="text-xl mb-4">Sukses</p>
+                    <hr class="border-t border-gray-300"/>
+                </main>
+
+                <!-- Bagian Footer -->
+                <footer class="mt-12 text-center">
+                    <p class="text-base text-gray-600 leading-normal">
+                        Terima Kasih telah Menggunakan<br>Mobile Banking Bank Jatim
+                    </p>
+                </footer>
+            </div>
+        </div>
+        <!-- Tombol Aksi -->
+        <div id="action-buttons" class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+            <button id="new-btn" class="w-full sm:w-auto bg-gray-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-700 transition-colors">Buat Baru</button>
+            <button id="print-btn" class="w-full sm:w-auto bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">Cetak</button>
+            <button id="save-btn" class="w-full sm:w-auto bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors">Simpan Gambar</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const formContainer = document.getElementById('form-container');
+            const strukContainer = document.getElementById('struk-container');
+            const strukForm = document.getElementById('struk-form');
+            const newBtn = document.getElementById('new-btn');
+            const printBtn = document.getElementById('print-btn');
+            const saveBtn = document.getElementById('save-btn');
+
+            // Definisikan input fields
+            const namaInput = document.getElementById('nama');
+            const noPelangganInput = document.getElementById('no-pelanggan');
+            const noMeterInput = document.getElementById('no-meter');
+
+            // Elemen baru
+            const nominalPilihan = document.getElementById('nominal-pilihan');
+            const nominalCustomContainer = document.getElementById('nominal-custom-container');
+            const tokenCustomInput = document.getElementById('token-custom');
+            const tokenOtomatisCheckbox = document.getElementById('token-otomatis');
+
+            // Muat data terakhir dari localStorage saat halaman dimuat
+            const lastNama = localStorage.getItem('lastNama');
+            const lastNoPelanggan = localStorage.getItem('lastNoPelanggan');
+            const lastNoMeter = localStorage.getItem('lastNoMeter');
+
+            if (lastNama) { namaInput.value = lastNama; }
+            if (lastNoPelanggan) { noPelangganInput.value = lastNoPelanggan; }
+            if (lastNoMeter) { noMeterInput.value = lastNoMeter; }
+
+            // Event listener untuk pilihan nominal
+            nominalPilihan.addEventListener('change', () => {
+                if (nominalPilihan.value === 'custom') {
+                    nominalCustomContainer.classList.remove('hidden');
+                } else {
+                    nominalCustomContainer.classList.add('hidden');
+                }
+            });
+
+            // Event listener untuk checkbox token otomatis
+            tokenOtomatisCheckbox.addEventListener('change', () => {
+                tokenCustomInput.disabled = tokenOtomatisCheckbox.checked;
+            });
+            // Inisialisasi status disabled token
+            tokenCustomInput.disabled = tokenOtomatisCheckbox.checked;
+
+
+            strukForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                generateStruk();
+            });
+
+            newBtn.addEventListener('click', () => {
+                strukContainer.classList.add('hidden');
+                formContainer.classList.remove('hidden');
+            });
+
+            printBtn.addEventListener('click', () => {
+                window.print();
+            });
+
+            saveBtn.addEventListener('click', () => {
+                const strukElement = document.getElementById('struk-wrapper');
+                html2canvas(strukElement, { scale: 2 }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'struk-pembayaran.png';
+                    link.href = canvas.toDataURL('image/png');
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
+            });
+
+            function generateStruk() {
+                // Ambil data dari form
+                const nama = namaInput.value;
+                const noPelanggan = noPelangganInput.value;
+                const noMeter = noMeterInput.value;
+                const tarifDayaSelect = document.getElementById('tarif-daya');
+                const selectedDaya = tarifDayaSelect.value;
+                const admin = parseInt(document.getElementById('admin').value);
+                
+                let nominal;
+                if (nominalPilihan.value === 'custom') {
+                    nominal = parseInt(document.getElementById('nominal-custom').value);
+                } else {
+                    nominal = parseInt(nominalPilihan.value);
+                }
+
+                // Simpan data terakhir ke localStorage
+                localStorage.setItem('lastNama', nama);
+                localStorage.setItem('lastNoPelanggan', noPelanggan);
+                localStorage.setItem('lastNoMeter', noMeter);
+
+                // Menentukan teks struk dan nilai kWh berdasarkan pilihan daya dan nominal
+                let tarifDayaText;
+                let kwh;
+
+                if (selectedDaya === '900') {
+                    tarifDayaText = 'S1/000000900VA';
+                    if (nominal === 50000) kwh = '99.9';
+                    else if (nominal === 100000) kwh = '200.0';
+                    else kwh = ((nominal / 50000) * 99.9).toFixed(1); // Proporsional
+                } else { // '1300'
+                    tarifDayaText = 'S1/000001300VA';
+                    if (nominal === 50000) kwh = '64.3';
+                    else if (nominal === 100000) kwh = '128.5';
+                    else kwh = ((nominal / 50000) * 64.3).toFixed(1); // Proporsional
+                }
+
+                // Buat data dinamis
+                const tanggalInput = document.getElementById('tanggal-input').value;
+                const jamInput = document.getElementById('jam-input').value;
+                let tanggal;
+                if (tanggalInput && jamInput) {
+                    const [year, month, day] = tanggalInput.split('-');
+                    const [hours, minutes] = jamInput.split(':');
+                    tanggal = `${day}/${month}/${year.slice(-2)} ${hours}:${minutes}`;
+                } else {
+                    const now = new Date();
+                    const day = String(now.getDate()).padStart(2, '0');
+                    const month = String(now.getMonth() + 1).padStart(2, '0');
+                    const year = String(now.getFullYear()).slice(-2);
+                    const hours = String(now.getHours()).padStart(2, '0');
+                    const minutes = String(now.getMinutes()).padStart(2, '0');
+                    tanggal = `${day}/${month}/${year} ${hours}:${minutes}`;
+                }
+
+                let ref = '';
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ012345678901234567890123456789';
+                for (let i = 0; i < 20; i++) {
+                    ref += characters.charAt(Math.floor(Math.random() * characters.length));
+                }
+                
+                // Stroom/Token
+                let tokenHTML;
+                if (tokenOtomatisCheckbox.checked) {
+                    let tokenParts = [];
+                    for (let i = 0; i < 5; i++) {
+                        tokenParts.push(String(Math.floor(Math.random() * 9000) + 1000).padStart(4, '0'));
+                    }
+                    const lastTokenPart = tokenParts.pop();
+                    const mainTokenPart = tokenParts.join(' - ');
+                    tokenHTML = `Stroom/Token ${mainTokenPart}<br>- ${lastTokenPart}`;
+                } else {
+                    const customToken = tokenCustomInput.value;
+                    const tokenParts = customToken.split(/[\s-]+/);
+                    if (tokenParts.length > 1) {
+                        const lastTokenPart = tokenParts.pop();
+                        const mainTokenPart = tokenParts.join(' - ');
+                        tokenHTML = `Stroom/Token ${mainTokenPart}<br>- ${lastTokenPart}`;
+                    } else {
+                        tokenHTML = `Stroom/Token ${customToken}`;
+                    }
+                }
+
+                // Tampilkan data ke struk
+                document.getElementById('struk-tanggal').innerText = tanggal;
+                document.getElementById('struk-ref').innerText = ref;
+                document.getElementById('struk-nama').innerText = nama;
+                document.getElementById('struk-no-pelanggan').innerText = noPelanggan;
+                document.getElementById('struk-no-meter').innerText = noMeter;
+                document.getElementById('struk-tarif-daya').innerText = tarifDayaText;
+                document.getElementById('struk-nominal').innerText = `Rp ${nominal.toLocaleString('id-ID').replace(/\./g, ',')}`;
+                document.getElementById('struk-kwh').innerText = `kWh ${kwh}`;
+                document.getElementById('struk-token').innerHTML = tokenHTML;
+                document.getElementById('struk-admin').innerText = `Adm ${admin.toLocaleString('id-ID').replace(/\./g, ',')}`;
+
+                // Tampilkan struk dan sembunyikan form
+                formContainer.classList.add('hidden');
+                strukContainer.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
+
+
