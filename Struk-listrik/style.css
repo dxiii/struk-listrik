@@ -32,6 +32,6 @@
 
 /* Mengatur agar tombol tidak menutupi konten utama */
 body {
-    padding-top: 80px; /* Beri sedikit ruang di atas */
+    padding-top: 80px !important; /* Beri sedikit ruang di atas */
 }
 /* ================================== */
