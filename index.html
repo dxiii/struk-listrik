@@ -3,56 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Utama</title>
+    <title>Portal Layanan Digital</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* CSS untuk mempercantik tampilan */
+        /* Reset dasar dan pengaturan font */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
             color: #333;
         }
+
+        /* Kontainer utama portal */
         .portal-container {
+            max-width: 800px;
+            width: 100%;
             text-align: center;
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        h1 {
-            margin-bottom: 30px;
-            font-size: 2em;
-            color: #1c1e21;
-        }
-        .link-button {
-            display: block;
-            background-color: #007bff;
+
+        .portal-container h1 {
+            font-size: 2.5em;
+            font-weight: 700;
             color: white;
-            padding: 15px 30px;
-            margin: 15px 0;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
         }
-        .link-button:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px); /* Efek sedikit terangkat saat disentuh */
+
+        /* Wrapper untuk menampung kartu-kartu */
+        .card-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 30px; /* Jarak antar kartu */
+            flex-wrap: wrap; /* Kartu akan turun ke bawah jika layar sempit */
+        }
+
+        /* Gaya untuk setiap kartu */
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px); /* Efek glassmorphism */
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-decoration: none;
+            color: inherit;
+            width: 280px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px); /* Efek terangkat saat kursor di atasnya */
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Gaya untuk ikon di dalam kartu (menggunakan SVG) */
+        .card .icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+        }
+
+        .card p {
+            font-size: 1em;
+            line-height: 1.5;
+            color: #555;
+        }
+        
+        /* Media Query untuk tampilan mobile */
+        @media (max-width: 600px) {
+            .portal-container h1 {
+                font-size: 2em;
+            }
+            .card {
+                width: 100%; /* Kartu akan memenuhi lebar layar */
+            }
         }
     </style>
 </head>
 <body>
-    <div class="portal-container">
-        <h1>Selamat Datang di Portal Kami</h1>
-        <p>Silakan pilih layanan yang Anda inginkan:</p>
-        
-        <a href="./Struk-Pulsa/" class="link-button">Cetak Struk Pulsa</a>
-        <a href="./Struk-listrik/" class="link-button">Cetak Struk Listrik</a>
-    </div>
+
+    <main class="portal-container">
+        <h1>Layanan Digital</h1>
+        <div class="card-wrapper">
+            <a href="./Struk-Pulsa/" class="card">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 1H7a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2z"></path>
+                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+                <h2>Struk Pulsa</h2>
+                <p>Buat dan cetak bukti transaksi pembelian pulsa atau paket data.</p>
+            </a>
+
+            <a href="./Struk-listrik/" class="card">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+                <h2>Struk Listrik</h2>
+                <p>Buat dan cetak bukti transaksi token atau pembayaran listrik PLN.</p>
+            </a>
+        </div>
+    </main>
+
 </body>
 </html>
