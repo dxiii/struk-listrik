@@ -1,0 +1,37 @@
+/* === CSS UNTUK TOMBOL KEMBALI === */
+.tombol-kembali {
+    /* Posisi tetap di pojok kiri atas */
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000; /* Memastikan tombol selalu di atas konten lain */
+
+    /* Tampilan tombol */
+    background-color: #ffffff;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 50px; /* Membuat sudut sangat melengkung */
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif; /* Pastikan fontnya sama dengan portal */
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    
+    /* Tampilan ikon dan teks */
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Jarak antara ikon dan teks */
+
+    /* Efek transisi */
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.tombol-kembali:hover {
+    transform: scale(1.05); /* Sedikit membesar saat disentuh */
+    background-color: #f1f1f1;
+}
+
+/* Mengatur agar tombol tidak menutupi konten utama */
+body {
+    padding-top: 80px; /* Beri sedikit ruang di atas */
+}
+/* ================================== */
